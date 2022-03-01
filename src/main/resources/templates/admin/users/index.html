@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/layout}">
+<head>
+    <title>Users</title>
+</head>
+<body>
+
+<div class="card card-custom card-custom gutter-t" layout:fragment="content">
+    <div class="card-header py-3">
+        <div class="card-title">
+            <h3 class="card-label">Users</h3>
+
+        </div>
+        <div class="card-toolbar">
+            <ul class="nav nav-tabs nav-bold">
+                <li class="nav-item">
+                    <a class="btn btn-outline-success font-weight-bold btn-pill" th:href="@{/users/create}">
+                        <i class="flaticon-plus"></i>
+                        Add new
+                    </a>
+                </li>
+            </ul>
+        </div>
+
+    </div>
+
+    <div class="card-body ">
+        <div class="alert alert-success" role="alert" th:text="${success}" th:if="${success}"></div>
+        <div class="alert alert-danger" role="alert" th:text="${error}" th:if="${error}"></div>
+
+        <form class="kt-form kt-form--fit mb-15">
+            <div class="row mb-6">
+                <div class="col-lg-3 mb-lg-0 mb-6">
+                    <label>Name</label>
+                    <input type="text" name="name" class="form-control datatable-input name"  data-col-index="0">
+                </div>
+            </div>
+            <div class="row mt-8">
+                <div class="col-lg-12">
+                    <button class="btn btn-primary btn-primary--icon" id="kt_search">
+                            <span>
+                                <i class="la la-search"></i>
+                                <span>Search</span>
+                            </span>
+                    </button>&nbsp;&nbsp;
+                    <button class="btn btn-secondary btn-secondary--icon" id="kt_reset">
+                            <span>
+                                <i class="la la-close"></i>
+                                <span>Reset</span>
+                            </span>
+                    </button>
+                </div>
+            </div>
+        </form>
+
+        <div id="kt_datatable2_wrapper"  class="dataTables_wrapper dt-bootstrap4 no-footer">
+            <div class="row">
+                <div class="col-sm-12">
+                    <table class="table table-separate  table-checkable dataTable no-footer dtr-inline" role="grid" aria-describedby="kt_datatable2_info" id="myTable">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Photo</th>
+                                <th>First Name</th>
+                                <th>Last Name</th>
+                                <th>Roles</th>
+                                <th>Enabled</th>
+                                <th>Created At</th>
+                                <th>Updated At</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
