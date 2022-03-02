@@ -4,9 +4,12 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
+
 
 @Entity
 @Table(name = "roles")
@@ -16,6 +19,8 @@ public class Role {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
+    @NotEmpty(message = "role must not be blank")
+    @Size(min = 3,max = 40)
     @Column(length = 40,nullable = false,unique = true)
     private String name;
 
@@ -32,6 +37,7 @@ public class Role {
 
     @ManyToMany(mappedBy = "roles")
     private List<User> users;
+
     public Role(String name, String description) {
         this.name = name;
         this.description = description;
@@ -99,8 +105,6 @@ public class Role {
 
     @Override
     public String toString() {
-        return "Role{" +
-                "name='" + name + '\'' +
-                '}';
+        return this.name;
     }
 }

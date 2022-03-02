@@ -8,7 +8,7 @@ src/main/resources/static
 .mvn/
 mvnw
 mvnw.cmd
-
+/user-photos
 ### STS ###
 .apt_generated
 .classpath

@@ -25,11 +25,11 @@
 
     <div class="d-flex flex-column flex-root">
         <div class="d-flex flex-row flex-column-fluid page">
-            <div th:include="includes/sidebar :: sidebar" class="aside aside-left aside-fixed d-flex flex-column flex-row-auto" id="kt_aside">
+            <div th:include="admin/includes/sidebar :: sidebar" class="aside aside-left aside-fixed d-flex flex-column flex-row-auto" id="kt_aside">
             </div>
 
             <div  class="d-flex flex-column flex-row-fluid wrapper" id="kt_wrapper">
-                <div th:include="includes/header :: header" id="kt_header" class="header header-fixed">
+                <div th:include="admin/includes/header :: header" id="kt_header" class="header header-fixed">
 
                 </div>
 
@@ -43,8 +43,7 @@
                     </div>
                 </div>
 
-                <div th:include="includes/footer :: footer" id="kt_footer" class="footer bg-white py-4 d-flex flex-lg-column">
-
+                <div th:include="admin/includes/footer :: footer" id="kt_footer" class="footer bg-white py-4 d-flex flex-lg-column">
                 </div>
             </div>
         </div>
@@ -61,7 +60,12 @@
     <script th:src="@{/admin/plugins/global/plugins.bundle.js}"></script>
     <script th:src="@{/admin/plugins/custom/prismjs/prismjs.bundle.js}"></script>
     <script th:src="@{/admin/js/scripts.bundle.js}"></script>
+    <script th:src="@{/admin/custom.js}"></script>
+
     <!--end::Global Theme Bundle-->
     <!--begin::Page Vendors(used by this page)-->
+    <div layout:fragment="scripts">
+
+    </div>
 </body>
 </html>
