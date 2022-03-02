@@ -1,1 +1,2 @@
-E-Commerce web site with spring boot and spring security and thymeleaf
+E-Commerce web site with
+spring boot , spring security, spring dat jpa,thymeleaf 
