@@ -35,17 +35,23 @@ public class UserController {
     private UserService service;
 
     @GetMapping("")
-    public String listAll(@RequestParam("page") Optional<Integer> page, Model model){
+    public String listAll(@RequestParam("page") Optional<Integer> page,
+                          @RequestParam("sortField") Optional<String> sortField,
+                          @RequestParam("sortDir") Optional<String> sortDir,
+                        Model model){
+
 
         int evalPage = page.filter(p-> p >= 1 )
                 .map(p -> p - 1)
                 .orElse(0);
 
-        Pageable pageable = PageRequest.of(evalPage,10, Sort.by("id").descending());
+        String evalSortField = sortField.orElse("id");
+        String evalSortDir = sortDir.orElse("asc");
 
-        Page<User> users = service.listAll(pageable);
+        Page<User> users = service.listAll(evalPage,evalSortField,evalSortDir);
         model.addAttribute("users",users);
-
+        model.addAttribute("sortField",evalSortField);
+        model.addAttribute("sortDir",evalSortDir);
         return "admin/users/index";
     }
 

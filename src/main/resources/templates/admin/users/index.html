@@ -43,7 +43,7 @@
                 <span>Search</span>
               </span>
             </button>&nbsp;&nbsp;
-            <button class="btn btn-secondary btn-secondary--icon" id="kt_reset">
+            <button class="btn btn-secondary btn-secondary--icon"  type="reset" >
               <span>
                 <i class="la la-close"></i>
                 <span>Reset</span>
@@ -59,18 +59,70 @@
             <table class="table table-separate  table-checkable dataTable no-footer dtr-inline" role="grid" aria-describedby="kt_datatable2_info" id="myTable">
               <thead>
                 <tr>
-                <th scope="col">#</th>
-                <th>ID</th>
-                <th>Photo</th>
-                <th>Email</th>
-                <th>First Name</th>
-                <th>Last Name</th>
-                <th>Roles</th>
-                <th>Enabled</th>
-                <th>Created At</th>
-                <th>Updated At</th>
-                <th>Actions</th>
-              </tr>
+                  <th scope="col">#</th>
+                  <th class="datatable-cell datatable-cell-sort datatable-cell-sorted">
+                    <a style="color: #212121"
+                      th:href="@{''(page=${users.number + 1},sortField='id',sortDir = ${sortDir == 'asc' ? 'desc' : 'asc'})}">
+                      ID
+                    </a>
+                    <span th:if="${sortField == 'id'}" style="width: 137px;">
+                      <i th:class="${sortDir == 'asc' ? 'flaticon2-arrow-up' : 'flaticon2-arrow-down'}"></i>
+                    </span>
+                  </th>
+                  <th>Photo</th>
+
+                  <th>
+                    <a style="color: #212121" th:href="@{''(page=${users.number + 1},sortField='email',sortDir = ${sortDir == 'asc' ? 'desc' : 'asc'})}">
+                      Email
+                    </a>
+                    <span th:if="${sortField == 'email'}" style="width: 137px;">
+                      <i th:class="${sortDir == 'asc' ? 'flaticon2-arrow-up' : 'flaticon2-arrow-down'}"></i>
+                    </span>
+                  </th>
+
+                  <th>
+                    <a style="color: #212121" th:href="@{''(page=${users.number + 1},sortField='firstName',sortDir = ${sortDir == 'asc' ? 'desc' : 'asc'})}">
+                      First Name
+                    </a>
+                    <span th:if="${sortField == 'firstName'}" style="width: 137px;">
+                      <i th:class="${sortDir == 'asc' ? 'flaticon2-arrow-up' : 'flaticon2-arrow-down'}"></i>
+                    </span>
+                  </th>
+                  <th>
+                    <a style="color: #212121" th:href="@{''(page=${users.number + 1},sortField='lastName',sortDir = ${sortDir == 'asc' ? 'desc' : 'asc'})}">
+                      Last Name
+                    </a>
+                    <span th:if="${sortField == 'lastName'}" style="width: 137px;">
+                      <i th:class="${sortDir == 'asc' ? 'flaticon2-arrow-up' : 'flaticon2-arrow-down'}"></i>
+                    </span>
+                  </th>
+                  <th>Roles</th>
+                  <th>
+                    <a style="color: #212121" th:href="@{''(page=${users.number + 1},sortField='enabled',sortDir = ${sortDir == 'asc' ? 'desc' : 'asc'})}">
+                      Enabled
+                    </a>
+                    <span th:if="${sortField == 'enabled'}" style="width: 137px;">
+                      <i th:class="${sortDir == 'asc' ? 'flaticon2-arrow-up' : 'flaticon2-arrow-down'}"></i>
+                    </span>
+                  </th>
+                  <th>
+                    <a style="color: #212121" th:href="@{''(page=${users.number + 1},sortField='createdAt',sortDir = ${sortDir == 'asc' ? 'desc' : 'asc'})}">
+                      Created At
+                    </a>
+                    <span th:if="${sortField == 'createdAt'}" style="width: 137px;">
+                      <i th:class="${sortDir == 'asc' ? 'flaticon2-arrow-up' : 'flaticon2-arrow-down'}"></i>
+                    </span>
+                  </th>
+                  <th>
+                    <a style="color: #212121" th:href="@{''(page=${users.number + 1},sortField='updatedAt',sortDir = ${sortDir == 'asc' ? 'desc' : 'asc'})}">
+                      Updated At
+                    </a>
+                    <span th:if="${sortField == 'updatedAt'}" style="width: 137px;">
+                      <i th:class="${sortDir == 'asc' ? 'flaticon2-arrow-up' : 'flaticon2-arrow-down'}"></i>
+                    </span>
+                  </th>
+                  <th>Actions</th>
+                </tr>
               </thead>
               <tbody>
                 <tr th:each="user,iter : ${users.getContent()}">

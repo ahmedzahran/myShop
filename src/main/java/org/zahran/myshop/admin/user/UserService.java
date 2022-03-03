@@ -2,7 +2,9 @@ package org.zahran.myshop.admin.user;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.zahran.myshop.entities.Role;
@@ -23,7 +25,12 @@ public class UserService {
     @Autowired
     private PasswordEncoder encoder;
 
-    public Page<User> listAll(Pageable pageable){
+    public Page<User> listAll(Integer page,String sortField,String sortDir){
+
+        Sort sort = Sort.by(sortField);
+        sort = sortDir.equals("asc") ? sort.ascending() : sort.descending();
+
+        Pageable pageable = PageRequest.of(page,5, sort);
 
         return  userRepository.findAll(pageable);
     }
