@@ -5,6 +5,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
@@ -27,6 +28,8 @@ import java.nio.file.StandardCopyOption;
 import java.util.List;
 import java.util.Optional;
 
+import static org.zahran.myshop.admin.user.UserSpecification.*;
+
 @Controller
 @RequestMapping("/users")
 public class UserController {
@@ -38,20 +41,39 @@ public class UserController {
     public String listAll(@RequestParam("page") Optional<Integer> page,
                           @RequestParam("sortField") Optional<String> sortField,
                           @RequestParam("sortDir") Optional<String> sortDir,
-                        Model model){
+                          @RequestParam("firstName") Optional<String> firstName,
+                          @RequestParam("lastName") Optional<String> lastName,
+                          @RequestParam("email") Optional<String> email,
+                          @RequestParam("from") Optional<String> from,
+                          @RequestParam("to") Optional<String> to,
+                        Model model) {
 
 
-        int evalPage = page.filter(p-> p >= 1 )
+        int evalPage = page.filter(p -> p >= 1)
                 .map(p -> p - 1)
                 .orElse(0);
 
         String evalSortField = sortField.orElse("id");
         String evalSortDir = sortDir.orElse("asc");
+        String evalFirstName = firstName.orElse(null);
+        String evalLastName = lastName.orElse(null);
+        String evalEmail = email.orElse(null);
+        String evalFromDate = from.orElse(null);
+        String evalToDate = to.orElse(null);
 
-        Page<User> users = service.listAll(evalPage,evalSortField,evalSortDir);
-        model.addAttribute("users",users);
-        model.addAttribute("sortField",evalSortField);
-        model.addAttribute("sortDir",evalSortDir);
+        System.out.println(evalEmail);
+
+        Specification<User> specification = Specification
+                .where(evalFirstName == null ? null :firstNameContains(evalFirstName))
+                .and(evalLastName == null ? null : lastNameContains(evalLastName))
+                .and(evalEmail  == null ||  evalEmail.isEmpty() ? null : userEmailEqual(evalEmail))
+                .and(evalFromDate == null || evalFromDate.isEmpty() ? null : fromDateFilter(evalFromDate))
+                .and(evalToDate == null || evalToDate.isEmpty() ? null : toDateFilter(evalToDate));
+
+        Page<User> users = service.listAll(evalPage, evalSortField, evalSortDir, specification);
+        model.addAttribute("users", users);
+        model.addAttribute("sortField", evalSortField);
+        model.addAttribute("sortDir", evalSortDir);
         return "admin/users/index";
     }
 

@@ -5,6 +5,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.zahran.myshop.entities.Role;
@@ -25,14 +26,14 @@ public class UserService {
     @Autowired
     private PasswordEncoder encoder;
 
-    public Page<User> listAll(Integer page,String sortField,String sortDir){
+    public Page<User> listAll(Integer page, String sortField, String sortDir, Specification<User> specification){
 
         Sort sort = Sort.by(sortField);
         sort = sortDir.equals("asc") ? sort.ascending() : sort.descending();
 
         Pageable pageable = PageRequest.of(page,5, sort);
 
-        return  userRepository.findAll(pageable);
+        return  userRepository.findAll(specification,pageable);
     }
 
     public List<Role> listRoles(){

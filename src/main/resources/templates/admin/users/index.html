@@ -31,10 +31,31 @@
       <form class="kt-form kt-form--fit mb-15">
         <div class="row mb-6">
           <div class="col-lg-3 mb-lg-0 mb-6">
-            <label>Name</label>
-            <input type="text" name="name" class="form-control datatable-input name"  data-col-index="0">
+            <label>First Name</label>
+            <input type="text" name="firstName" th:value="${param.firstName}" class="form-control filter-input name"  data-col-index="0">
+          </div>
+          <div class="col-lg-3 mb-lg-0 mb-6">
+            <label>Last Name</label>
+            <input type="text" name="lastName" th:value="${param.lastName}" class="form-control filter-input name"  data-col-index="0">
+          </div>
+          <div class="col-lg-3 mb-lg-0 mb-6">
+            <label>Email</label>
+            <input type="text" name="email" th:value="${param.email}" class="form-control filter-input name"  data-col-index="0">
+          </div>
+          <div class="col-lg-3 mb-lg-0 mb-6">
+            <label>date</label>
+            <div class="input-daterange input-group" id="kt_datepicker">
+              <input type="text" th:value="${param.from}" class="form-control filter-input datepicker from" name="from" placeholder="From" data-col-index="5">
+              <div class="input-group-append">
+              <span class="input-group-text">
+                <i class="la la-ellipsis-h"></i>
+              </span>
+              </div>
+              <input type="text" th:value="${param.to}" class="form-control filter-input datepicker to" name="to" placeholder="To" data-col-index="5">
+            </div>
           </div>
         </div>
+
         <div class="row mt-8">
           <div class="col-lg-12">
             <button class="btn btn-primary btn-primary--icon" id="kt_search">
@@ -43,7 +64,7 @@
                 <span>Search</span>
               </span>
             </button>&nbsp;&nbsp;
-            <button class="btn btn-secondary btn-secondary--icon"  type="reset" >
+            <button class="btn btn-secondary btn-secondary--icon" id="kt_reset">
               <span>
                 <i class="la la-close"></i>
                 <span>Reset</span>
@@ -139,8 +160,8 @@
                   <a th:if="${user.enabled == true}" class="btn btn-xs btn-info mb-1"><i class="flaticon2-check-mark"></i></a>
                   <a th:if="${user.enabled == false}" class="btn btn-xs btn-danger"><i class="flaticon2-cross"></i></a>
                 </td>
-                <td th:text="${#temporals.format(user.createdAt, 'dd-MM-yyyy HH:mm')}"></td>
-                <td th:text="${#temporals.format(user.updatedAt, 'dd-MM-yyyy HH:mm')}"></td>
+                <td th:text="${#temporals.format(user.createdAt, 'yyyy-MM-dd')}"></td>
+                <td th:text="${#temporals.format(user.updatedAt, 'yyyy-MM-dd HH:mm')}"></td>
                 <td>
                   <a th:href="@{/users/edit/{id}(id=${user.id})}" class="btn btn-xs btn-info mb-1"><i class="flaticon2-edit"></i></a>
                   <a th:href="@{/users/delete/{id}(id=${user.id})}"  class="btn btn-xs btn-danger delete_warning text-white mb-1" style="cursor:pointer;">
