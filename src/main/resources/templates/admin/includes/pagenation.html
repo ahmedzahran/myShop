@@ -7,7 +7,7 @@
 <body>
 
 
-<div class="row" th:fragment="pagenation (pagedObject)" >
+<div class="row" th:fragment="pagenation (pagedObject,params)" >
 
     <div class="col-sm-12 col-md-5">
         <div class="dataTables_info" id="kt_datatable2_info" role="status" aria-live="polite">Showing [[${pagedObject.number+1}]] to [[${pagedObject.totalPages}]] of [[${pagedObject.totalElements}]] entries</div>
@@ -18,7 +18,7 @@
             <ul class="pagination">
 
                 <li class="paginate_button page-item previous"  th:classappend="${pagedObject.number eq 0} ? 'disabled'" id="kt_datatable2_previous">
-                    <a th:href="@{''(page=${pagedObject.number lt 2 ? 1 : pagedObject.number})}"
+                    <a th:href="@{''(page=${pagedObject.number lt 2 ? 1 : pagedObject.number},__${@thymeleafUtilsService.buildMultiParamPartUrl(params)}__)}"
                        aria-controls="kt_datatable2"
                        data-dt-idx="0" tabindex="0" class="page-link">
                         <i class="ki ki-arrow-back"></i>
@@ -26,11 +26,11 @@
                 </li>
 
                 <li class="paginate_button page-item" th:classappend="${i eq pagedObject.number + 1} ? 'active'" th:each="i : ${#numbers.sequence( pagedObject.number + 1, pagedObject.totalPages > 10 + pagedObject.number ? pagedObject.number + 10 : pagedObject.totalPages, 1)}">
-                    <a th:href="@{''(page=${i})}" th:text="${i}" aria-controls="kt_datatable2" data-dt-idx="1" tabindex="0" class="page-link">1</a>
+                    <a th:href="@{''(page=${i},__${@thymeleafUtilsService.buildMultiParamPartUrl(params)}__)}" th:text="${i}" aria-controls="kt_datatable2" data-dt-idx="1" tabindex="0" class="page-link">1</a>
                 </li>
 
                 <li class="paginate_button page-item next" th:classappend="${pagedObject.number + 1 eq pagedObject.totalPages} ? 'disabled'" id="kt_datatable2_next">
-                    <a th:href="@{''(page=${pagedObject.number + 2})}" aria-controls="kt_datatable2" data-dt-idx="6" tabindex="0" class="page-link">
+                    <a th:href="@{''(page=${pagedObject.number + 2},__${@thymeleafUtilsService.buildMultiParamPartUrl(params)}__)}" aria-controls="kt_datatable2" data-dt-idx="6" tabindex="0" class="page-link">
                         <i class="ki ki-arrow-next"></i>
                     </a>
                 </li>

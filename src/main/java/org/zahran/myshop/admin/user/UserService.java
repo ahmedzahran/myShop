@@ -89,4 +89,8 @@ public class UserService {
         User user = getById(id);
         userRepository.delete(user);
     }
+
+    public List<User> getAllUsers(){
+        return userRepository.findAll();
+    }
 }

@@ -175,7 +175,8 @@
               </tr>
               </tbody>
             </table>
-            <div th:replace="admin/includes/pagenation :: pagenation (${users})">...</div>
+
+            <div th:replace="admin/includes/pagenation :: pagenation (${users},${paramNames})">...</div>
           </div>
         </div>
       </div>

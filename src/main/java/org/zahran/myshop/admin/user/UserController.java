@@ -25,6 +25,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -71,9 +72,25 @@ public class UserController {
                 .and(evalToDate == null || evalToDate.isEmpty() ? null : toDateFilter(evalToDate));
 
         Page<User> users = service.listAll(evalPage, evalSortField, evalSortDir, specification);
+
+        List<String> paramNames = new ArrayList<>();
+        paramNames.add("sortField");
+        paramNames.add("sortDir");
+        paramNames.add("firstName");
+        paramNames.add("lastName");
+        paramNames.add("email");
+        paramNames.add("from");
+
+        model.addAttribute("paramNames", paramNames);
         model.addAttribute("users", users);
         model.addAttribute("sortField", evalSortField);
         model.addAttribute("sortDir", evalSortDir);
+        model.addAttribute("firstName", evalFirstName);
+        model.addAttribute("lastName", evalLastName);
+        model.addAttribute("email", evalEmail);
+        model.addAttribute("from", evalFromDate);
+        model.addAttribute("to", evalToDate);
+
         return "admin/users/index";
     }
 
