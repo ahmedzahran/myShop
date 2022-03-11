@@ -30,6 +30,9 @@
               <a class="dropdown-item"  th:href="@{'/users/export/csv'(page=${param.page == null ? 0 : param.page},__${@thymeleafUtilsService.buildMultiParamPartUrl(paramNames)}__)}">
                 CSV
               </a>
+              <a class="dropdown-item"  th:href="@{'/users/export/excel'(page=${param.page == null ? 0 : param.page},__${@thymeleafUtilsService.buildMultiParamPartUrl(paramNames)}__)}">
+                Excel
+              </a>
             </div>
           </li>
 
