@@ -19,6 +19,20 @@
               Add new
             </a>
           </li>
+
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle " data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
+              <span class="nav-icon">
+                <i class="flaticon-interface-6"></i>
+              </span>
+            </a>
+            <div class="dropdown-menu dropdown-menu-sm dropdown-menu-left" style="">
+              <a class="dropdown-item"  th:href="@{'/users/export/csv'(page=${param.page == null ? 0 : param.page},__${@thymeleafUtilsService.buildMultiParamPartUrl(paramNames)}__)}">
+                CSV
+              </a>
+            </div>
+          </li>
+
         </ul>
       </div>
     </div>

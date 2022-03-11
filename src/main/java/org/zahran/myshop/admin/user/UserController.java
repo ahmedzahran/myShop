@@ -17,6 +17,7 @@ import org.zahran.myshop.entities.Role;
 import org.zahran.myshop.entities.User;
 
 import javax.servlet.ServletContext;
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import java.io.File;
 import java.io.IOException;
@@ -62,8 +63,8 @@ public class UserController {
         String evalFromDate = from.orElse(null);
         String evalToDate = to.orElse(null);
 
-        System.out.println(evalEmail);
 
+        
         Specification<User> specification = Specification
                 .where(evalFirstName == null ? null :firstNameContains(evalFirstName))
                 .and(evalLastName == null ? null : lastNameContains(evalLastName))
@@ -168,6 +169,43 @@ public class UserController {
         service.deleteUser(id);
         redirect.addFlashAttribute("message","User deleted Success");
         return "redirect:/users";
+    }
+
+    //this function need to be improved
+    @GetMapping("/export/csv")
+    public void exportToCsv(@RequestParam("page") Optional<Integer> page,
+                            @RequestParam("sortField") Optional<String> sortField,
+                            @RequestParam("sortDir") Optional<String> sortDir,
+                            @RequestParam("firstName") Optional<String> firstName,
+                            @RequestParam("lastName") Optional<String> lastName,
+                            @RequestParam("email") Optional<String> email
+            ,HttpServletResponse response) throws IOException {
+
+        int evalPage = page.filter(p -> p >= 1)
+                .map(p -> p - 1)
+                .orElse(0);
+
+        String evalSortField = sortField.orElse("id");
+        String evalSortDir = sortDir.orElse("asc");
+        String evalFirstName = firstName.orElse(null);
+        String evalLastName = lastName.orElse(null);
+        String evalEmail = email.orElse(null);
+
+        Specification<User> specification = Specification
+                .where(evalFirstName == null ? null :firstNameContains(evalFirstName))
+                .and(evalLastName == null ? null : lastNameContains(evalLastName))
+                .and(evalEmail  == null ||  evalEmail.isEmpty() ? null : userEmailEqual(evalEmail));
+
+//        if (page.isPresent() && page.get() == 0){
+//            List<User> users = service.getAllUsers();
+//            UserCsvExporter exporter= new UserCsvExporter();
+//            exporter.export(users,response);
+//            return;
+//        }
+        Page<User> users = service.listAll(evalPage, evalSortField, evalSortDir, specification);
+
+        UserCsvExporter exporter= new UserCsvExporter();
+        exporter.export(users.getContent(),response);
     }
 
     @ExceptionHandler(UserNotFoundException.class)
