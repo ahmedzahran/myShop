@@ -229,7 +229,6 @@ public class UserController {
         String evalLastName = lastName.orElse(null);
         String evalEmail = email.orElse(null);
 
-        UserExcelExporter excelExporter = new UserExcelExporter();
 
         Specification<User> specification = Specification
                 .where(evalFirstName == null ? null :firstNameContains(evalFirstName))
@@ -238,8 +237,45 @@ public class UserController {
 
         Page<User> users = service.listAll(evalPage, evalSortField, evalSortDir, specification);
 
+        UserExcelExporter excelExporter = new UserExcelExporter();
+
         excelExporter.export(users.getContent(),response);
     }
+
+    //this function need to be improved
+    @GetMapping("/export/pdf")
+    public void exportPdf(@RequestParam("page") Optional<Integer> page,
+                          @RequestParam("sortField") Optional<String> sortField,
+                          @RequestParam("sortDir") Optional<String> sortDir,
+                          @RequestParam("firstName") Optional<String> firstName,
+                          @RequestParam("lastName") Optional<String> lastName,
+                          @RequestParam("email") Optional<String> email
+            ,HttpServletResponse response) throws IOException {
+
+
+        int evalPage = page.filter(p -> p >= 1)
+                .map(p -> p - 1)
+                .orElse(0);
+
+        String evalSortField = sortField.orElse("id");
+        String evalSortDir = sortDir.orElse("asc");
+        String evalFirstName = firstName.orElse(null);
+        String evalLastName = lastName.orElse(null);
+        String evalEmail = email.orElse(null);
+
+
+        Specification<User> specification = Specification
+                .where(evalFirstName == null ? null :firstNameContains(evalFirstName))
+                .and(evalLastName == null ? null : lastNameContains(evalLastName))
+                .and(evalEmail  == null ||  evalEmail.isEmpty() ? null : userEmailEqual(evalEmail));
+
+        Page<User> users = service.listAll(evalPage, evalSortField, evalSortDir, specification);
+
+        UserPdfExporter exporter = new UserPdfExporter(users.getContent());
+
+        exporter.export(response);
+    }
+
     @ExceptionHandler(UserNotFoundException.class)
     public String userNotFoundHandler(RedirectAttributes redirectAttributes){
         redirectAttributes.addFlashAttribute("message","user not found");
